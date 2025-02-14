@@ -30,9 +30,11 @@ jobs:
         run: dotnet restore
 
       - name: build
+        working-directory: ./DemoApi
         run: dotnet build
 
       - name: publish
+        working-directory: ./DemoApi
         run: dotnet publish
 
       # Runs a single command using the runners shell
