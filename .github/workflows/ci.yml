@@ -20,7 +20,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+
       - name: restore
+        working-directory: /DemoApi
         run: dotnet restore
 
       - name: build
