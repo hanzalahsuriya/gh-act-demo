@@ -52,7 +52,7 @@ jobs:
 
       - name: Build and Push Docker Image
         env:
-          IMAGE_NAME: your-dockerhub-username/your-repo-name
+          IMAGE_NAME: hanzalah/demoapi
         run: |
           docker build -t $IMAGE_NAME:latest -f ./Dockerfile .
           docker push $IMAGE_NAME:latest
