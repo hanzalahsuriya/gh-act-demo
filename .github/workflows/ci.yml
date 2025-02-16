@@ -35,14 +35,15 @@ jobs:
         run: dotnet restore
 
       - name: build
-        # working-directory: ${{ env.WORKING_DIRECTORY }}
         run: dotnet build --configuration Release
 
       - name: test
-        run: dotnet test
+        run: dotnet test --configuration Release --no-build
+
+      - name: format
+        run: dotnet format -v detailed --verify-no-changes
 
       - name: Build Application
-        # working-directory: ${{ env.WORKING_DIRECTORY }}
         run: dotnet publish -c Release -o out
 
       - name: Set up Docker Buildx
