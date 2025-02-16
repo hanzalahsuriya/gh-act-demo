@@ -2,6 +2,7 @@ name: CI
 
 env:
   IMAGE_NAME: 'hanzalah/demoapi'
+  WORKING_DIRECTORY: './DemoApi'
 
 on:
   push:
@@ -33,16 +34,12 @@ jobs:
         working-directory: ./DemoApi
         run: dotnet restore
 
-      # - name: build
-      #   working-directory: ./DemoApi
-      #   run: dotnet build
-
-      # - name: publish
-      #   working-directory: ./DemoApi
-      #   run: dotnet publish
+      - name: build
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: dotnet build --configuration Release
 
       - name: Build Application
-        working-directory: ./DemoApi
+        working-directory: ${{ env.WORKING_DIRECTORY }}
         run: dotnet publish -c Release -o out
 
       - name: Set up Docker Buildx
