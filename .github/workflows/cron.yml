@@ -1,0 +1,16 @@
+name: Runs every 5 ins
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  
+  workflow_dispatch:
+
+jobs:
+  cron:
+    name: Run every 5 mins
+    runs-on: ubuntu-latest
+
+    steps:    
+      - name: Run a one-line script every 5 mins
+        run: echo "Hello, world! every 5 mins"
