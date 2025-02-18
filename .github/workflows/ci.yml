@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: "CI"
-    runs-on: "ubunt-latest"
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
 
