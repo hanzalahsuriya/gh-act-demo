@@ -1,0 +1,32 @@
+name: Build .NET & Push to GCP
+
+on:
+  push:
+    branches:
+      - main  # Adjust as needed
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/github-pool-prod/providers/github-provider-prod'
+          service_account: 'github-actions-prod@YOUR_PROJECT_ID.iam.gserviceaccount.com'
+
+      - name: Set up Docker
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      - name: Build & Push Docker Image
+        run: |
+          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/prod-repo/my-app:${{ github.sha }} .
+          docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/prod-repo/my-app:${{ github.sha }}
