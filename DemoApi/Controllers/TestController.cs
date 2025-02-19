@@ -8,7 +8,7 @@ namespace DemoApi.Controllers
         public required DateTime Date { get; set; }
         public string Details { get; set; }
     }
-    
+
     [ApiController]
     [Route("[controller]")]
     public class TestController : ControllerBase
@@ -25,6 +25,6 @@ namespace DemoApi.Controllers
         {
             return Ok(model);
         }
-        
+
     }
 }
