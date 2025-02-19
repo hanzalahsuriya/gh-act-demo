@@ -1,0 +1,30 @@
+name: Deploy to Cloud Run
+
+on:
+  workflow_run:
+    workflows: ["Build .NET & Push to GCP"]
+    types:
+      - completed
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/github-pool-prod/providers/github-provider-prod'
+          service_account: 'github-actions-prod@YOUR_PROJECT_ID.iam.gserviceaccount.com'
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy prod-dotnet-app \
+            --image=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/prod-repo/my-app:${{ github.sha }} \
+            --platform=managed \
+            --region=us-central1 \
+            --allow-unauthenticated
